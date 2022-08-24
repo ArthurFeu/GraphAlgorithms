@@ -1,3 +1,6 @@
+import java.io.*;
+import java.util.*;
+
 public class Graph {
   private int countNodes;
   private int countEdges;
@@ -28,6 +31,23 @@ public class Graph {
     }
 
     this.adjMatrix[source][sink] = weight;
+    this.countEdges++;
+  }
+
+  public void addUnorientedEdge(int source, int sink, int weight) {
+    if (source < 0 || sink < 0 || source > this.countNodes - 1 ||
+        sink > this.countNodes - 1) {
+      System.out.println("\nERROR: Cannot add edge with this source or sink.\n-> SOURCE: " + source
+          + " | SINK: " + sink + "\n");
+      return;
+    }
+    if (weight <= 0) {
+      System.out.println("\nERROR: Weight have to be greater than zero.\n-> SOURCE: " + source
+          + " | SINK: " + sink + "\n");
+    }
+
+    this.adjMatrix[source][sink] = weight;
+    this.adjMatrix[sink][source] = weight;
     this.countEdges++;
   }
 
@@ -110,5 +130,34 @@ public class Graph {
     float nodes = this.countNodes;
     float density = edges / ((nodes * nodes) - 1);
     return density;
+  }
+
+  public ArrayList<Integer> BreathFirstSearch(int s) {
+    int desc[] = new int[this.countNodes];
+    desc[s] = 1;
+    ArrayList<Integer> r = new ArrayList<Integer>();
+    ArrayList<Integer> q = new ArrayList<Integer>();
+    q.add(s);
+    r.add(s);
+    
+    while (q.size() > 0) {
+      int u = q.remove(0);
+
+      for (int node = 0; node < this.adjMatrix[u].length; ++node){        
+        if (this.adjMatrix[u][node] != 0){
+          if(desc[node] == 0){
+            q.add(node);
+            r.add(node);
+            desc[node] = 1;
+          }
+        }
+      }
+    }
+
+    return r;
+  }
+
+  public boolean connected(){  
+    return this.BreathFirstSearch(0).size() == this.countNodes;
   }
 }
