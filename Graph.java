@@ -139,13 +139,13 @@ public class Graph {
     ArrayList<Integer> q = new ArrayList<Integer>();
     q.add(s);
     r.add(s);
-    
+
     while (q.size() > 0) {
       int u = q.remove(0);
 
-      for (int node = 0; node < this.adjMatrix[u].length; ++node){        
-        if (this.adjMatrix[u][node] != 0){
-          if(desc[node] == 0){
+      for (int node = 0; node < this.adjMatrix[u].length; ++node) {
+        if (this.adjMatrix[u][node] != 0) {
+          if (desc[node] == 0) {
             q.add(node);
             r.add(node);
             desc[node] = 1;
@@ -157,7 +157,62 @@ public class Graph {
     return r;
   }
 
-  public boolean connected(){  
+  public ArrayList<Integer> DepthFirstSearch(int s) {
+    int desc[] = new int[this.countNodes];
+    ArrayList<Integer> r = new ArrayList<Integer>();
+    ArrayList<Integer> q = new ArrayList<Integer>();
+    Stack<Integer> S = new Stack<Integer>();
+    desc[s] = 1;
+
+    q.add(s);
+    r.add(s);
+    S.push(s);
+    int flag = 0;
+    while (S.size() != 0) {
+      flag = 0;
+      int u = S.peek();
+      for (int node = 0; node < this.adjMatrix[u].length; ++node) {
+        if (this.adjMatrix[u][node] != 0 && desc[node] == 0) {
+          flag++;
+          S.push(node);
+          r.add(node);
+          desc[node] = 1;
+          break;
+        }
+      }
+      if (flag == 0) {
+        S.pop();
+      }
+    }
+
+    return r;
+  }
+
+  public boolean connected() {
     return this.BreathFirstSearch(0).size() == this.countNodes;
   }
+
+  public Graph(String fileName) throws IOException {
+    File file = new File(fileName);
+    FileReader reader = new FileReader(file);
+    BufferedReader bufferedReader = new BufferedReader(reader);
+
+    // Read header
+    String[] line = bufferedReader.readLine().split(" ");
+    this.countNodes = (Integer.parseInt(line[0]));
+    int fileLines = (Integer.parseInt(line[1]));
+
+    // Create and fill adjMatrix with read edges
+    this.adjMatrix = new int[this.countNodes][this.countNodes];
+    for (int i = 0; i < fileLines; ++i) {
+      String[] edgeInfo = bufferedReader.readLine().split(" ");
+      int source = Integer.parseInt(edgeInfo[0]);
+      int sink = Integer.parseInt(edgeInfo[1]);
+      int weight = Integer.parseInt(edgeInfo[2]);
+      addEdge(source, sink, weight);
+    }
+    bufferedReader.close();
+    reader.close();
+  }
+
 }
