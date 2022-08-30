@@ -215,4 +215,38 @@ public class Graph {
     reader.close();
   }
 
+  public boolean isNonOriented() {
+    for (int i = 0; i < this.adjMatrix.length; i++) {
+      for (int j = i + 1; j < this.adjMatrix[i].length; j++) {
+        if (this.adjMatrix[i][j] != this.adjMatrix[j][i]) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  public void recursiveAuxDFS(int u, int desc[], ArrayList<Integer> r) {
+    desc[u] = 1;
+    r.add(u);
+    for (int node = 0; node < this.adjMatrix[u].length; ++node) {
+      if (this.adjMatrix[u][node] != 0) {
+        if (desc[node] == 0) {
+          recursiveAuxDFS(node, desc, r);
+        }
+      }
+    }
+
+  }
+
+  public ArrayList<Integer> recursiveDepthFirstSearch(int s) {
+    int desc[] = new int[this.countNodes];
+    for (int v = 0; v < this.countNodes; v++) {
+      desc[v] = 0;
+    }
+    ArrayList<Integer> r = new ArrayList<Integer>();
+    recursiveAuxDFS(s, desc, r);
+    return r;
+  }
+
 }

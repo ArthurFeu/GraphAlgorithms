@@ -8,7 +8,9 @@ class Main {
     g1.addUnorientedEdge(6, 3, 1);
     g1.addUnorientedEdge(3, 2, 1);
     System.out.println(g1.DepthFirstSearch(6));
-    // System.out.println(g1.toString());
+    System.out.println(g1.isNonOriented());
+    System.out.println(g1.toString());
+    System.out.println(g1.recursiveDepthFirstSearch(6));
 
     // g1.addUnorientedEdge(7, 5, 1);
     // g1.addUnorientedEdge(7, 1, 1);
@@ -30,6 +32,7 @@ class Main {
     // g1.addEdge(3, 2, 1);
     // g1.addEdge(3, 4, 2);
     // g1.addEdge(2, 1, 0);
+    // System.out.println(g1.isNonOriented());
     // System.out.println(g1.toString());
     // System.out.println("Degree node 3: " + g1.degree(3));
     // System.out.println("Highest degree in the graph: " + g1.highestDegree());
