@@ -249,4 +249,52 @@ public class Graph {
     return r;
   }
 
+  public void FloydWarshall(Graph g) {
+    int infinite = 999999999;
+    int dist[][] = new int[g.countNodes][g.countNodes];
+    int pred[][] = new int[g.countNodes][g.countNodes];
+    for (int i = 0; i < g.countNodes - 1; i++) {
+      for (int j = 0; j < g.countNodes - 1; j++) {
+        if (i == j) {
+          dist[i][j] = 0;
+        } else if (g.adjMatrix[i][j] == 0) {
+          dist[i][j] = g.adjMatrix[i][j];
+          pred[i][j] = i;
+        } else {
+          dist[i][j] = infinite;
+          pred[i][j] = -1;
+        }
+      }
+    }
+
+    for (int k = 0; k < g.countNodes - 1; k++) {
+      for (int i = 0; i < g.countNodes - 1; i++) {
+        for (int j = 0; j < g.countNodes - 1; j++) {
+          if (dist[i][j] > dist[i][k] + dist[k][j]) {
+            dist[i][j] = dist[i][k] + dist[k][j];
+            pred[i][j] = pred[k][j];
+          }
+        }
+      }
+    }
+
+    String str = "";
+    for (int i = 0; i < g.countNodes; i++) {
+      for (int j = 0; j < g.countNodes; j++) {
+        str += pred[i][j] + "\t";
+      }
+      str += "\n";
+    }
+    System.out.println(str);
+
+    str = "";
+    for (int i = 0; i < g.countNodes; i++) {
+      for (int j = 0; j < g.countNodes; j++) {
+        str += pred[i][j] + "\t";
+      }
+      str += "\n";
+    }
+    System.out.println(str);
+
+  }
 }

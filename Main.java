@@ -1,16 +1,23 @@
 class Main {
   public static void main(String[] args) {
-    Graph g1 = new Graph(7);
-    g1.addUnorientedEdge(1, 0, 1);
-    g1.addUnorientedEdge(0, 4, 1);
-    g1.addUnorientedEdge(4, 6, 1);
-    g1.addUnorientedEdge(6, 5, 1);
-    g1.addUnorientedEdge(6, 3, 1);
-    g1.addUnorientedEdge(3, 2, 1);
-    System.out.println(g1.DepthFirstSearch(6));
-    System.out.println(g1.isNonOriented());
-    System.out.println(g1.toString());
-    System.out.println(g1.recursiveDepthFirstSearch(6));
+    Graph g1 = new Graph(3);
+
+    g1.addEdge(0, 1, 1);
+    g1.addEdge(0, 2, 6);
+    g1.addEdge(2, 1, 3);
+    g1.addEdge(1, 2, 4);
+    g1.FloydWarshall(g1);
+
+    // g1.addUnorientedEdge(1, 0, 1);
+    // g1.addUnorientedEdge(0, 4, 1);
+    // g1.addUnorientedEdge(4, 6, 1);
+    // g1.addUnorientedEdge(6, 5, 1);
+    // g1.addUnorientedEdge(6, 3, 1);
+    // g1.addUnorientedEdge(3, 2, 1);
+    // System.out.println(g1.DepthFirstSearch(6));
+    // System.out.println(g1.isNonOriented());
+    // System.out.println(g1.toString());
+    // System.out.println(g1.recursiveDepthFirstSearch(6));
 
     // g1.addUnorientedEdge(7, 5, 1);
     // g1.addUnorientedEdge(7, 1, 1);
